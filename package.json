@@ -1,42 +1,21 @@
 {
-  "name": "social-app",
+  "name": "echoo",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "Echoo - a full-stack social platform. React 19 + TypeScript client, Express 5 + MongoDB API.",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^7.0.0",
-    "@hookform/resolvers": "^5.2.1",
-    "@tailwindcss/vite": "^4.1.11",
-    "@tanstack/react-query": "^5.85.3",
-    "@tanstack/react-query-devtools": "^5.85.5",
-    "axios": "^1.11.0",
-    "flowbite": "^3.1.2",
-    "generate-react-cli": "^8.4.9",
-    "iconsax-reactjs": "^0.0.8",
-    "lucide-react": "^0.542.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-hook-form": "^7.62.0",
-    "react-hot-toast": "^2.6.0",
-    "react-router-dom": "^7.7.1",
-    "tailwindcss": "^4.1.11",
-    "zod": "^4.0.14"
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev -w @echoo/api\" \"npm run dev -w @echoo/web\"",
+    "build": "npm run build -w @echoo/api && npm run build -w @echoo/web",
+    "lint": "npm run lint -w @echoo/api && npm run lint -w @echoo/web",
+    "typecheck": "npm run typecheck -w @echoo/api && npm run typecheck -w @echoo/web"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
-    "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "vite": "^7.0.4"
+    "concurrently": "^10.0.5"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

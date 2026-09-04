@@ -1,0 +1,228 @@
+@import 'tailwindcss';
+
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:root {
+  color-scheme: light;
+
+
+  --app: oklch(97.6% 0.006 255);
+  --surface: oklch(100% 0 0);
+  --surface-muted: oklch(96% 0.008 255);
+  --surface-hover: oklch(93.5% 0.012 255);
+
+
+  --text: oklch(24% 0.055 258);
+  --text-muted: oklch(48% 0.035 256);
+  --text-subtle: oklch(55% 0.032 256);
+
+
+  --border: oklch(90.5% 0.014 255);
+  --border-strong: oklch(62% 0.045 256);
+
+
+  --brand: oklch(43.7% 0.142 254.6);
+  --brand-hover: oklch(38% 0.135 257);
+  --brand-soft: oklch(94.5% 0.03 255);
+  --brand-text: oklch(30.4% 0.123 259.9);
+  --on-brand: oklch(99% 0.004 255);
+
+
+  --accent: oklch(88.3% 0.181 94.5);
+  --accent-hover: oklch(85% 0.174 87.8);
+  --accent-soft: oklch(96% 0.055 90);
+  --accent-text: oklch(52% 0.12 80);
+  --on-accent: oklch(30.4% 0.123 259.9);
+
+  --accent-border: oklch(52% 0.12 80);
+
+
+  --ring: oklch(43.7% 0.142 254.6);
+  --ring-halo: oklch(100% 0 0);
+  --focus: oklch(58% 0.15 245);
+
+
+  --panel-from: oklch(43.7% 0.142 254.6);
+  --panel-via: oklch(38% 0.135 257);
+  --panel-to: oklch(30.4% 0.123 259.9);
+
+
+  --danger: oklch(52% 0.2 27);
+  --danger-soft: oklch(95.5% 0.03 27);
+  --success: oklch(50% 0.12 155);
+
+
+  --shadow-card: 0 1px 2px oklch(30.4% 0.123 259.9 / 0.08);
+  --shadow-pop: 0 8px 24px -6px oklch(30.4% 0.123 259.9 / 0.18),
+    0 2px 6px -2px oklch(30.4% 0.123 259.9 / 0.1);
+}
+
+.dark {
+  color-scheme: dark;
+
+
+  --app: oklch(17.5% 0.035 258);
+  --surface: oklch(21.5% 0.04 258);
+  --surface-muted: oklch(25.5% 0.042 258);
+  --surface-hover: oklch(30% 0.045 258);
+
+  --text: oklch(96% 0.008 90);
+  --text-muted: oklch(74% 0.02 255);
+  --text-subtle: oklch(62% 0.024 255);
+
+  --border: oklch(31% 0.035 258);
+  --border-strong: oklch(52% 0.05 256);
+
+
+  --brand: oklch(72% 0.115 250);
+  --brand-hover: oklch(79% 0.1 250);
+  --brand-soft: oklch(30% 0.06 257);
+  --brand-text: oklch(82% 0.09 250);
+  --on-brand: oklch(17% 0.04 258);
+
+
+  --accent: oklch(88.3% 0.181 94.5);
+  --accent-hover: oklch(92% 0.16 95);
+  --accent-soft: oklch(30% 0.07 88);
+  --accent-text: oklch(86% 0.15 92);
+  --on-accent: oklch(22% 0.05 258);
+  --accent-border: oklch(88.3% 0.181 94.5);
+
+  --ring: oklch(88.3% 0.181 94.5);
+  --ring-halo: oklch(17% 0.04 258);
+  --focus: oklch(72% 0.13 240);
+
+  --danger: oklch(66% 0.19 27);
+  --danger-soft: oklch(29% 0.07 27);
+  --success: oklch(74% 0.13 155);
+
+  --shadow-card: 0 1px 2px oklch(0% 0 0 / 0.4);
+  --shadow-pop: 0 8px 24px -6px oklch(0% 0 0 / 0.6),
+    0 2px 6px -2px oklch(0% 0 0 / 0.4);
+}
+
+
+@theme inline {
+  --color-app: var(--app);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-hover: var(--surface-hover);
+
+  --color-content: var(--text);
+  --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
+
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-text: var(--brand-text);
+  --color-on-brand: var(--on-brand);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+  --color-accent-border: var(--accent-border);
+
+  --color-ring: var(--ring);
+  --color-focus: var(--focus);
+  --color-ring-halo: var(--ring-halo);
+
+  --color-panel-from: var(--panel-from);
+  --color-panel-via: var(--panel-via);
+  --color-panel-to: var(--panel-to);
+
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+
+  --radius-card: 0.75rem;
+
+  --font-sans: 'Inter var', 'Inter', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Arabic', sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--app);
+    color: var(--text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+
+    box-shadow: 0 0 0 3px var(--ring-halo) !important;
+    border-radius: 0.375rem;
+  }
+
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-text);
+  }
+}
+
+
+@utility ring-focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 3px var(--ring-halo);
+}
+
+
+@layer utilities {
+
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

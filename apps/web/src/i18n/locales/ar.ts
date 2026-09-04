@@ -1,0 +1,246 @@
+import type { en } from './en'
+
+
+export const ar: Record<keyof typeof en, string> = {
+
+  'common.cancel': 'إلغاء',
+  'common.save': 'حفظ التغييرات',
+  'common.delete': 'حذف',
+  'comment.replyAction': 'رد',
+  'common.edit': 'تعديل',
+  'common.close': 'إغلاق',
+  'common.loading': 'جارٍ التحميل…',
+
+
+  'nav.home': 'الرئيسية',
+  'nav.people': 'الأشخاص',
+  'nav.notifications': 'الإشعارات',
+  'nav.profile': 'الملف الشخصي',
+  'nav.main': 'التنقل الرئيسي',
+  'nav.skipToContent': 'تخطَّ إلى المحتوى',
+  'nav.accountMenu': 'قائمة الحساب',
+  'nav.yourProfile': 'ملفك الشخصي',
+  'nav.signOut': 'تسجيل الخروج',
+  'nav.signIn': 'تسجيل الدخول',
+  'nav.join': 'انضم',
+  'nav.unread': '{count} غير مقروء',
+  'nav.echooHome': 'الصفحة الرئيسية لإيكو',
+
+  'theme.label': 'المظهر: {theme}',
+  'theme.light': 'فاتح',
+  'theme.dark': 'داكن',
+  'theme.system': 'حسب النظام',
+
+  'language.label': 'اللغة',
+  'language.en': 'English',
+  'language.ar': 'العربية',
+
+
+  'auth.tagline': 'انشر شيئًا. وانظر ما يعود إليك.',
+  'auth.taglineSub': 'تفاعلات وتعليقات وإشارات وأصدقاء — كل ما تتوقعه، مصنوع بإتقان.',
+
+  'auth.login.title': 'أهلًا بعودتك',
+  'auth.login.subtitle': 'سجّل الدخول لتكمل من حيث توقفت.',
+  'auth.login.submit': 'تسجيل الدخول',
+  'auth.login.newHere': 'جديد هنا؟',
+  'auth.login.createAccount': 'أنشئ حسابًا',
+  'auth.login.dividerEmail': 'أو سجّل الدخول بالبريد الإلكتروني',
+
+  'auth.register.title': 'أنشئ حسابك',
+  'auth.register.subtitle': 'لن يستغرق الأمر أكثر من دقيقة.',
+  'auth.register.submit': 'إنشاء الحساب',
+  'auth.register.haveAccount': 'لديك حساب بالفعل؟',
+  'auth.register.dividerEmail': 'أو أنشئ حسابًا بالبريد الإلكتروني',
+
+  'auth.google.signin': 'تسجيل الدخول بحساب Google',
+  'auth.google.signup': 'إنشاء حساب بواسطة Google',
+  'auth.google.pending': 'جارٍ تسجيل دخولك…',
+
+  'auth.demo.explore': 'جرّب النسخة التجريبية',
+
+  'auth.field.name': 'الاسم',
+  'auth.field.namePlaceholder': 'اسمك',
+  'auth.field.email': 'البريد الإلكتروني',
+  'auth.field.emailPlaceholder': 'you@example.com',
+  'auth.field.password': 'كلمة المرور',
+  'auth.field.confirmPassword': 'تأكيد كلمة المرور',
+  'auth.field.currentPassword': 'كلمة المرور الحالية',
+  'auth.field.newPassword': 'كلمة المرور الجديدة',
+  'auth.field.dateOfBirth': 'تاريخ الميلاد',
+  'auth.field.gender': 'النوع',
+  'auth.field.male': 'ذكر',
+  'auth.field.female': 'أنثى',
+  'auth.field.passwordHint':
+    'ثمانية أحرف على الأقل، مع حرف كبير وحرف صغير ورقم ورمز.',
+  'auth.field.showPassword': 'إظهار كلمة المرور',
+  'auth.field.hidePassword': 'إخفاء كلمة المرور',
+
+  'auth.verify.title': 'تحقّق من بريدك',
+  'auth.verify.subtitle': 'أرسلنا رمزًا من ستة أرقام إلى {email}.',
+  'auth.verify.codeGroup': 'رمز التحقق',
+  'auth.verify.digit': 'الرقم {index}',
+  'auth.verify.submit': 'تأكيد ومتابعة',
+  'auth.verify.wrongAddress': 'العنوان غير صحيح؟',
+  'auth.verify.startOver': 'ابدأ من جديد',
+
+
+  'feed.title': 'الصفحة الرئيسية',
+
+  'post.composer.placeholder': 'بمَ تفكّر؟ استخدم @ للإشارة إلى شخص.',
+  'post.composer.label': 'نص المنشور',
+  'post.composer.photo': 'صورة',
+  'post.composer.video': 'فيديو',
+  'post.composer.submit': 'نشر',
+
+  'post.edit.title': 'تعديل المنشور',
+  'post.delete.title': 'حذف هذا المنشور؟',
+  'post.delete.description': 'سيؤدي هذا إلى حذف المنشور وتعليقاته نهائيًا. لا يمكن التراجع.',
+  'post.notFound.title': 'المنشور غير موجود',
+
+
+  'comment.write': 'اكتب تعليقًا…',
+  'comment.writeLabel': 'اكتب تعليقًا',
+  'comment.reply': 'اكتب ردًا…',
+  'comment.replyLabel': 'اكتب ردًا',
+  'comment.send': 'نشر التعليق',
+  'comment.sendReply': 'نشر الرد',
+  'comment.cancelReply': 'إلغاء الرد',
+  'comment.hintSend': 'للإرسال',
+  'comment.hintNewline': 'لسطر جديد',
+  'comment.delete.title': 'حذف هذا التعليق؟',
+
+
+  'profile.editProfile': 'تعديل الملف',
+  'profile.password': 'كلمة المرور',
+  'profile.changePassword': 'تغيير كلمة المرور',
+  'profile.changeCover': 'تغيير صورة الغلاف',
+  'profile.changePhoto': 'تغيير الصورة الشخصية',
+  'profile.cover': 'الغلاف',
+  'profile.coverPrevious': 'صورة الغلاف السابقة',
+  'profile.coverNext': 'صورة الغلاف التالية',
+  'profile.coverPosition': 'الغلاف {index} من {total}',
+  'profile.coverGoTo': 'عرض الغلاف {index}',
+  'profile.posts': 'منشورات',
+  'profile.postsOne': 'منشور',
+  'profile.friends': 'أصدقاء',
+  'profile.friendsOne': 'صديق',
+  'profile.yearsOld': 'سنة',
+  'profile.yearOld': 'سنة',
+  'profile.notFound.title': 'الملف الشخصي غير موجود',
+
+
+  'friends.empty.title': 'لا أصدقاء بعد',
+  'friends.empty.description': 'أرسل طلبًا من تبويب «اكتشف» للبدء.',
+  'friends.requests.empty.title': 'لا توجد طلبات معلّقة',
+  'friends.requests.empty.description': 'ستظهر هنا الطلبات التي ترسلها أو تستقبلها.',
+  'friends.discover.empty.title': 'لا أحد جديد الآن',
+  'friends.discover.empty.description': 'أنت متصل بالفعل بكل من هنا.',
+
+
+  'notifications.title': 'الإشعارات',
+  'notifications.empty.title': 'لا إشعارات بعد',
+  'notifications.empty.description':
+    'ستظهر هنا التفاعلات والتعليقات والإشارات وطلبات الصداقة.',
+
+
+  'error.notFound.title': 'الصفحة غير موجودة',
+  'error.notFound.description': 'الصفحة التي تبحث عنها غير موجودة أو تم نقلها.',
+
+
+  'common.retry': 'حاول مرة أخرى',
+
+  'feed.empty.title': 'لا شيء هنا بعد',
+  'feed.empty.description': 'كن أول من يشارك شيئًا مع المجموعة.',
+  'feed.yourPosts': 'منشوراتك',
+
+  'profile.empty.title': 'لا منشورات بعد',
+  'profile.empty.description': 'سيظهر هنا كل ما تشاركه.',
+  'profile.username': 'اسم المستخدم',
+  'profile.bio': 'نبذة',
+
+  'post.actions.label': 'خيارات المنشور',
+  'post.edit.label': 'نص المنشور',
+  'post.media.removeImage': 'إزالة الصورة',
+  'post.media.changePhoto': 'تغيير الصورة',
+  'post.media.changeVideo': 'تغيير الفيديو',
+  'post.media.imageTooLarge': 'يجب ألا يتجاوز حجم الصورة 4 ميجابايت',
+  'post.media.videoTooLarge': 'يجب ألا يتجاوز حجم الفيديو 50 ميجابايت',
+  'post.media.previewAlt': 'معاينة المرفق المحدد',
+  'post.media.removeVideo': 'إزالة الفيديو',
+
+  'comment.edit': 'تعديل التعليق',
+  'comment.saveEdit': 'حفظ التعليق',
+  'comment.cancelEdit': 'إلغاء التعديل',
+  'comment.delete.description': 'لا يمكن التراجع عن هذا.',
+  'comment.heading': 'التعليقات ({count})',
+
+  'friends.title': 'الأشخاص',
+  'friends.accept': 'قبول',
+  'friends.decline': 'رفض',
+  'friends.remove': 'إزالة',
+  'friends.pending': 'قيد الانتظار',
+  'friends.received': 'الواردة',
+  'friends.sent': 'المرسلة',
+  'friends.add': 'إضافة صديق',
+  'friends.requested': 'تم الإرسال',
+  'friends.tab.friends': 'الأصدقاء',
+  'friends.tab.requests': 'الطلبات',
+  'friends.tab.discover': 'اكتشف',
+
+  'notifications.unread': 'غير مقروء',
+  'notifications.failed': 'تعذّر تحميل الإشعارات.',
+
+  'reaction.like': 'إعجاب',
+  'reaction.love': 'أحببته',
+  'reaction.haha': 'أضحكني',
+  'reaction.wow': 'أدهشني',
+  'reaction.sad': 'أحزنني',
+  'reaction.angry': 'أغضبني',
+  'reaction.care': 'أهتم',
+
+
+  'toast.welcomeBack': 'أهلًا بعودتك يا {name}',
+  'toast.welcome': 'أهلًا يا {name}',
+  'toast.codeSent': 'أُرسل الرمز إلى {email}',
+  'toast.newCodeSent': 'أُرسل رمز جديد — تفقّد بريدك',
+  'toast.verified': 'تم — أهلًا بك في إيكو',
+  'toast.verifyFirst': 'أكّد بريدك لإتمام تسجيل الدخول',
+  'toast.postShared': 'تم نشر المنشور',
+  'toast.postUpdated': 'تم تحديث المنشور',
+  'toast.postDeleted': 'تم حذف المنشور',
+  'toast.commentUpdated': 'تم تحديث التعليق',
+  'toast.commentDeleted': 'تم حذف التعليق',
+  'toast.photoUpdated': 'تم تحديث الصورة',
+  'toast.coverUpdated': 'تم تحديث صورة الغلاف',
+  'toast.profileUpdated': 'تم تحديث الملف الشخصي',
+  'toast.passwordChanged': 'تم تغيير كلمة المرور',
+  'toast.allCaughtUp': 'لا جديد لديك',
+  'toast.requestSent': 'أُرسل طلب الصداقة',
+  'toast.nowFriends': 'أصبحتما صديقين',
+  'toast.requestDeclined': 'تم رفض الطلب',
+  'toast.friendRemoved': 'تمت إزالة الصديق',
+
+  'apiError.generic': 'حدث خطأ ما. حاول مرة أخرى بعد قليل.',
+  'apiError.network': 'تعذّر الوصول إلى إيكو الآن. تحقّق من اتصالك ثم حاول مجددًا.',
+  'apiError.badCredentials': 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+  'apiError.signInToContinue': 'سجّل الدخول للمتابعة',
+  'apiError.sessionExpired': 'انتهت جلستك. سجّل الدخول مرة أخرى.',
+  'apiError.emailTaken': 'يوجد حساب بهذا البريد الإلكتروني بالفعل',
+  'apiError.usernameTaken': 'اسم المستخدم هذا مستخدم بالفعل',
+  'apiError.wrongPassword': 'كلمة المرور الحالية غير صحيحة',
+  'apiError.codeIncorrect': 'الرمز غير صحيح',
+  'apiError.codeExpired': 'انتهت صلاحية الرمز. اطلب رمزًا جديدًا.',
+  'apiError.useGoogle': 'استخدم «المتابعة بحساب Google» لتسجيل الدخول إلى هذا الحساب',
+  'apiError.noAccess': 'ليس لديك صلاحية الوصول إلى هذا',
+  'apiError.notFound': 'الحساب غير موجود',
+  'apiError.validation': 'راجع الحقول المميّزة ثم حاول مجددًا',
+
+
+  'comment.deleteWithReplies': 'سيؤدي هذا أيضًا إلى حذف {count} ردود. لا يمكن التراجع.',
+  'comment.headingCount': 'التعليقات ({count})',
+  'reaction.choose': 'اختر تفاعلًا',
+  'mention.friend': 'صديق',
+  'post.backToFeed': 'العودة إلى الصفحة الرئيسية',
+  'profile.notFound.description': 'هذا الحساب غير موجود، أو تغيّر اسم المستخدم.',
+  'post.notFound.description': 'ربما حُذف، أو أن الرابط غير صحيح.',
+}
