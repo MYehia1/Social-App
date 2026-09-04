@@ -14,30 +14,21 @@ import { Avatar, Button, Card, EmptyState, Skeleton, Spinner } from '@/component
 import { relativeTime } from '@/lib/format'
 import { cn } from '@/lib/cn'
 import { useMarkAllRead, useMarkRead, useNotifications } from '@/features/notifications/hooks'
+import { PushToggle } from '@/features/notifications/components/PushToggle'
 import type { Notification, NotificationType } from '@/types/api'
 import { useI18n } from '@/i18n'
 
 
-const META: Record<NotificationType, { icon: typeof Bell; tint: string; verb: string }> = {
-  reaction: { icon: Heart, tint: 'text-danger', verb: 'reacted to your post' },
-  comment: { icon: MessageCircle, tint: 'text-brand-text', verb: 'commented on your post' },
-  reply: { icon: CornerDownRight, tint: 'text-brand-text', verb: 'replied to your comment' },
-  mention_post: { icon: AtSign, tint: 'text-brand-text', verb: 'mentioned you in a post' },
-  mention_comment: {
-    icon: AtSign,
-    tint: 'text-brand-text',
-    verb: 'mentioned you in a comment',
-  },
-  friend_request: {
-    icon: UserPlus,
-    tint: 'text-brand-text',
-    verb: 'sent you a friend request',
-  },
-  friend_accepted: {
-    icon: Users,
-    tint: 'text-success',
-    verb: 'accepted your friend request',
-  },
+// The verb is a translation key rather than a string: the notification feed
+// is the one place where every sentence is assembled at render time.
+const META: Record<NotificationType, { icon: typeof Bell; tint: string }> = {
+  reaction: { icon: Heart, tint: 'text-danger' },
+  comment: { icon: MessageCircle, tint: 'text-brand-text' },
+  reply: { icon: CornerDownRight, tint: 'text-brand-text' },
+  mention_post: { icon: AtSign, tint: 'text-brand-text' },
+  mention_comment: { icon: AtSign, tint: 'text-brand-text' },
+  friend_request: { icon: UserPlus, tint: 'text-brand-text' },
+  friend_accepted: { icon: Users, tint: 'text-success' },
 }
 
 function NotificationRow({ notification }: { notification: Notification }) {
@@ -81,8 +72,13 @@ function NotificationRow({ notification }: { notification: Notification }) {
 
         <div className="min-w-0 flex-1">
           <p className="text-sm text-content">
-            <span className="font-semibold">{notification.actor.name}</span>
-            <span className="text-muted"> {meta.verb}</span>
+            <span className="font-semibold">
+              <bdi>{notification.actor.name}</bdi>
+            </span>
+            <span className="text-muted">
+              {' '}
+              {t(`notifications.verb.${notification.type}`)}
+            </span>
           </p>
           {notification.excerpt && (
             <p className="mt-0.5 truncate text-sm text-subtle">{notification.excerpt}</p>
@@ -129,19 +125,22 @@ export function NotificationsPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="text-xl font-semibold tracking-tight text-content">
-          Notifications
+          {t('notifications.title')}
         </h1>
-        {unread > 0 && (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => markAllRead.mutate()}
-            loading={markAllRead.isPending}
-          >
-            <CheckCheck className="size-4" aria-hidden="true" />
-            Mark all read
-          </Button>
-        )}
+        <div className="flex items-center gap-2">
+          <PushToggle />
+          {unread > 0 && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => markAllRead.mutate()}
+              loading={markAllRead.isPending}
+            >
+              <CheckCheck className="size-4" aria-hidden="true" />
+              {t('notifications.markAllRead')}
+            </Button>
+          )}
+        </div>
       </div>
 
       <Card className="overflow-hidden">

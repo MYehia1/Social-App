@@ -2,13 +2,28 @@ import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
 import { session } from '@/lib/session'
 import type { ErrorEnvelope } from '@/types/api'
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3000'
+function resolveBaseUrl(): string {
+  const configured = import.meta.env.VITE_API_BASE_URL?.trim()
+
+  if (!configured) {
+    if (import.meta.env.DEV) return 'http://localhost:3000'
+    console.error(
+      'VITE_API_BASE_URL is not set. The deployed build has no API to call — ' +
+        'set it in the hosting project and redeploy.',
+    )
+    return ''
+  }
+
+  return configured.replace(/\/+$/, '')
+}
+
+const BASE_URL = resolveBaseUrl()
 
 export const http = axios.create({
   baseURL: `${BASE_URL}/api/v1`,
 
   withCredentials: true,
-  timeout: 20_000,
+  timeout: 60_000,
 })
 
 export interface FieldError {

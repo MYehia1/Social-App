@@ -59,6 +59,16 @@ export const notificationsApi = {
   },
 }
 
+export const pushApi = {
+  async subscribe(token: string): Promise<void> {
+    await http.post('/notifications/push/subscribe', { token })
+  },
+
+  async unsubscribe(token: string): Promise<void> {
+    await http.delete('/notifications/push/subscribe', { data: { token } })
+  },
+}
+
 export const friendsApi = {
   async list(page: number): Promise<Page<Author>> {
     const { data } = await http.get<Envelope<Author[]>>('/friends', {

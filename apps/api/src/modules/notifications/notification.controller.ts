@@ -18,6 +18,12 @@ const idSchema = {
   params: z.object({ id: generalValidation.objectId }),
 }
 
+// FCM tokens are long opaque strings; the bounds only stop an obviously
+// bogus body from reaching the database.
+const tokenSchema = {
+  body: z.object({ token: z.string().min(20).max(4096) }),
+}
+
 router.get(
   '/',
   validate(listSchema),
@@ -35,6 +41,30 @@ router.get(
   asyncHandler(async (req: Request, res: Response) => {
     const count = await notificationService.unreadCount(req.user!._id.toString())
     return successResponse({ res, data: { count } })
+  }),
+)
+
+/**
+ * Registers this browser for push. Called after the user grants permission,
+ * and again whenever Firebase rotates the token.
+ */
+router.post(
+  '/push/subscribe',
+  validate(tokenSchema),
+  asyncHandler(async (req: Request, res: Response) => {
+    const { token } = req.body as { token: string }
+    await notificationService.subscribe(req.user!._id.toString(), token)
+    return successResponse({ res, message: 'Push notifications enabled' })
+  }),
+)
+
+router.delete(
+  '/push/subscribe',
+  validate(tokenSchema),
+  asyncHandler(async (req: Request, res: Response) => {
+    const { token } = req.body as { token: string }
+    await notificationService.unsubscribe(req.user!._id.toString(), token)
+    return successResponse({ res, message: 'Push notifications disabled' })
   }),
 )
 

@@ -153,6 +153,22 @@ export const en = {
 
 
   'notifications.title': 'Notifications',
+  'notifications.verb.reaction': 'reacted to your post',
+  'notifications.verb.comment': 'commented on your post',
+  'notifications.verb.reply': 'replied to your comment',
+  'notifications.verb.mention_post': 'mentioned you in a post',
+  'notifications.verb.mention_comment': 'mentioned you in a comment',
+  'notifications.verb.friend_request': 'sent you a friend request',
+  'notifications.verb.friend_accepted': 'accepted your friend request',
+  'notifications.markAllRead': 'Mark all read',
+  'push.enable': 'Turn on push',
+  'push.enabled': 'Push is on',
+  'push.blocked': 'Push blocked',
+  'push.blockedHint':
+    'This browser is blocking notifications for Echoo. Allow them in your site settings, then try again.',
+  'push.enabledToast': 'Push is on. You will hear from Echoo even with the tab closed.',
+  'push.disabledToast': 'Push notifications turned off for this browser.',
+  'push.failed': 'Could not turn on push notifications.',
   'notifications.empty.title': 'No notifications yet',
   'notifications.empty.description':
     'Reactions, comments, mentions and friend requests will show up here.',

@@ -43,6 +43,12 @@ export interface IUser {
   /** Denormalized so a profile does not need to count the join table. */
   friendCount: number
 
+  /**
+   * Firebase Cloud Messaging registration tokens, one per browser the user
+   * has enabled push on. Never returned to a client.
+   */
+  pushTokens?: string[] | undefined
+
   dateOfBirth?: Date | undefined
   confirmedAt?: Date | undefined
   otpHash?: string | undefined

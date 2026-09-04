@@ -137,7 +137,23 @@ export const ar: Record<keyof typeof en, string> = {
   'friends.discover.empty.description': 'أنت متصل بالفعل بكل من هنا.',
 
 
+  'notifications.markAllRead': 'تعليم الكل كمقروء',
+  'push.enable': 'تفعيل الإشعارات الفورية',
+  'push.enabled': 'الإشعارات الفورية مفعّلة',
+  'push.blocked': 'الإشعارات محظورة',
+  'push.blockedHint':
+    'هذا المتصفح يحظر إشعارات Echoo. اسمح بها من إعدادات الموقع ثم حاول مرة أخرى.',
+  'push.enabledToast': 'تم تفعيل الإشعارات. ستصلك أخبار Echoo حتى مع إغلاق التبويب.',
+  'push.disabledToast': 'تم إيقاف الإشعارات الفورية على هذا المتصفح.',
+  'push.failed': 'تعذّر تفعيل الإشعارات الفورية.',
   'notifications.title': 'الإشعارات',
+  'notifications.verb.reaction': 'تفاعل مع منشورك',
+  'notifications.verb.comment': 'علّق على منشورك',
+  'notifications.verb.reply': 'ردّ على تعليقك',
+  'notifications.verb.mention_post': 'أشار إليك في منشور',
+  'notifications.verb.mention_comment': 'أشار إليك في تعليق',
+  'notifications.verb.friend_request': 'أرسل إليك طلب صداقة',
+  'notifications.verb.friend_accepted': 'قبل طلب صداقتك',
   'notifications.empty.title': 'لا إشعارات بعد',
   'notifications.empty.description':
     'ستظهر هنا التفاعلات والتعليقات والإشارات وطلبات الصداقة.',

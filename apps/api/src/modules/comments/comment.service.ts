@@ -96,6 +96,7 @@ class CommentService {
         type: NotificationEnum.REPLY,
         post: postId,
         comment: comment._id.toString(),
+        excerpt: content,
       })
       alreadyNotified.add(parent.author.toString())
     } else {
@@ -105,6 +106,7 @@ class CommentService {
         type: NotificationEnum.COMMENT,
         post: postId,
         comment: comment._id.toString(),
+        excerpt: content,
       })
       alreadyNotified.add(post.author.toString())
     }
@@ -114,7 +116,7 @@ class CommentService {
       mentions.filter((id) => !alreadyNotified.has(id.toString())),
       authorId,
       NotificationEnum.MENTION_COMMENT,
-      { post: postId, comment: comment._id.toString() },
+      { post: postId, comment: comment._id.toString(), excerpt: content },
     )
 
     await comment.populate(AUTHOR_POPULATE)

@@ -51,6 +51,12 @@ const schema = z.object({
   SMTP_PASSWORD: z.string().optional(),
   MAIL_FROM: z.string().default('Echoo <no-reply@echoo.app>'),
 
+  // Firebase service account, used to push notifications to browsers.
+  // All three or none: a partial set silently disables push.
+  FIREBASE_PROJECT_ID: z.string().optional(),
+  FIREBASE_CLIENT_EMAIL: z.string().optional(),
+  FIREBASE_PRIVATE_KEY: z.string().optional(),
+
   DEMO_EMAIL: z.string().optional(),
   DEMO_PASSWORD: z.string().optional(),
 })
@@ -76,3 +82,7 @@ export const uploadsEnabled = Boolean(
 export const mailEnabled = Boolean(env.SMTP_USER && env.SMTP_PASSWORD)
 
 export const googleAuthEnabled = Boolean(env.GOOGLE_CLIENT_ID)
+
+export const pushEnabled = Boolean(
+  env.FIREBASE_PROJECT_ID && env.FIREBASE_CLIENT_EMAIL && env.FIREBASE_PRIVATE_KEY,
+)

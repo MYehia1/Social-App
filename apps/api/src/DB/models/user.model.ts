@@ -59,6 +59,10 @@ const userSchema = new Schema<IUser>(
 
     friendCount: { type: Number, default: 0, min: 0 },
 
+    // One token per browser. `select: false` because they are write-mostly
+    // and have no business travelling out with a profile.
+    pushTokens: { type: [String], default: [], select: false },
+
     dateOfBirth: { type: Date },
     confirmedAt: { type: Date },
     // Never queried directly, and never returned to a client.
@@ -74,6 +78,7 @@ const userSchema = new Schema<IUser>(
       transform(_doc, ret: Record<string, unknown>) {
         // Belt and braces alongside `select: false`.
         delete ret.password
+        delete ret.pushTokens
         delete ret.__v
         delete ret._id
         return ret

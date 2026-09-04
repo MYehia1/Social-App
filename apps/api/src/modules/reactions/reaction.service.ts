@@ -80,6 +80,7 @@ class ReactionService {
       actor: userId,
       type: NotificationEnum.REACTION,
       post: postId,
+      excerpt: post.body,
     })
 
     return this.summarize(postId, type)

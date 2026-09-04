@@ -131,7 +131,7 @@ class PostService {
       mentions,
       authorId,
       NotificationEnum.MENTION_POST,
-      { post: post._id.toString() },
+      { post: post._id.toString(), excerpt: body },
     )
 
     await post.populate(AUTHOR_POPULATE)

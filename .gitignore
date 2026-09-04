@@ -9,7 +9,6 @@ dist-ssr
 # Environment — never commit real credentials
 .env
 .env.*
-!.env.example
 
 # Logs
 logs

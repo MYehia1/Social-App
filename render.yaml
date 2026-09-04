@@ -1,5 +1,8 @@
-# Deploys the Echoo API on Render. The web app deploys separately on Vercel
-# with its Root Directory set to apps/web.
+# Deploys the Echoo API on Render. The web app deploys separately on Vercel,
+# which builds it from the repository root using the root vercel.json.
+#
+# Every variable the API reads is declared here. `sync: false` means Render
+# prompts for the value on first deploy instead of storing it in git.
 services:
   - type: web
     name: echoo-api
@@ -19,14 +22,46 @@ services:
         generateValue: true
       - key: REFRESH_TOKEN_SECRET
         generateValue: true
+
+      # The Vercel URL, scheme included and no trailing slash. Set this after
+      # the web app has been deployed and has an address.
       - key: ORIGINS
         sync: false
+
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
+
+      # Must be the same client id the web bundle uses, or Google sign-in
+      # fails on the audience check.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+
+      # Without these `sendMail` refuses to send in production, so signups
+      # would create accounts whose verification code never arrives.
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+
+      # Firebase service account, for pushing notifications to browsers.
+      # Optional: leave unset and the app falls back to in-app notifications.
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+
       - key: DEMO_EMAIL
         sync: false
       - key: DEMO_PASSWORD

@@ -1,10 +1,13 @@
 import { Outlet } from 'react-router-dom'
 import { useAuth } from '@/providers/auth-context'
+import { useForegroundPush } from '@/features/notifications/hooks'
 import { MobileNav } from '../MobileNav'
 import { TopBar } from '../TopBar'
 
 export function AppShell() {
   const { isAuthenticated } = useAuth()
+
+  useForegroundPush()
 
   return (
     <div className="flex min-h-dvh flex-col">

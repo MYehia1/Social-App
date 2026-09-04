@@ -10,27 +10,27 @@ Live demo: not deployed yet · API: not deployed yet
 
 | Feed — light | Feed — dark |
 | --- | --- |
-| ![Feed in light mode](docs/screenshots/02-feed-light.png) | ![Feed in dark mode](docs/screenshots/03-feed-dark.png) |
+| ![Feed in light mode](docs/screenshots/04-feed-light.png) | ![Feed in dark mode](docs/screenshots/05-feed-dark.png) |
 
-| Post detail | Profile |
+| Post detail | Who reacted |
 | --- | --- |
-| ![Post detail with comments](docs/screenshots/05-post-detail.png) | ![Profile page](docs/screenshots/06-profile.png) |
+| ![Post detail with comments](docs/screenshots/07-post-detail.png) | ![Reactions, filterable by type](docs/screenshots/14-who-reacted.png) |
 
-| Reactions | Who reacted |
+| Notifications, with push | People |
 | --- | --- |
-| ![Reaction picker](docs/screenshots/08-reactions.png) | ![Who reacted](docs/screenshots/13-who-reacted.png) |
+| ![Notification feed](docs/screenshots/08-notifications.png) | ![Friends, requests and discovery](docs/screenshots/09-friends.png) |
 
-| Sign up | Email verification |
+| Profile | Arabic, right to left |
 | --- | --- |
-| ![Registration](docs/screenshots/14-register.png) | ![Code entry](docs/screenshots/15-verify.png) |
+| ![Profile with cover carousel](docs/screenshots/10-profile.png) | ![The same feed in Arabic](docs/screenshots/11-arabic-rtl.png) |
 
-| Notifications | Friends |
+| Sign in | Sign up |
 | --- | --- |
-| ![Notifications](docs/screenshots/10-notifications.png) | ![Friends and requests](docs/screenshots/11-friends.png) |
+| ![Sign-in page](docs/screenshots/01-signin.png) | ![Registration](docs/screenshots/02-register.png) |
 
-| Sign in | Mobile |
+| Sign in — dark | Mobile |
 | --- | --- |
-| ![Sign-in page](docs/screenshots/01-signin.png) | <img src="docs/screenshots/07-mobile.png" alt="Mobile feed" width="260"> |
+| ![Sign-in page in dark mode](docs/screenshots/03-signin-dark.png) | <img src="docs/screenshots/12-mobile.png" alt="Mobile feed" width="260"> |
 
 ## Features
 
@@ -60,9 +60,12 @@ Live demo: not deployed yet · API: not deployed yet
 - Reactions, comments, mentions, and friend activity in one feed
 - Unread badge in the header, polled on an interval
 - Mark one or all as read
+- Browser push through Firebase Cloud Messaging, opt-in per device, so
+  notifications arrive with the tab closed
 
 **Interface**
 - Light, dark, and system themes
+- English and Arabic, with a full right-to-left layout
 - Responsive: desktop navigation collapses to a mobile bottom bar
 - Keyboard-navigable throughout, with focus-trapped dialogs and a skip link
 - Every action has a loading, empty, and error state
@@ -72,7 +75,8 @@ Live demo: not deployed yet · API: not deployed yet
 | | |
 | --- | --- |
 | **Client** | React 19, TypeScript, Vite 7, Tailwind CSS 4, TanStack Query 5, React Hook Form, Zod, React Router 7 |
-| **Server** | Node 22, Express 5, TypeScript, MongoDB with Mongoose 9, JWT, bcrypt, Zod, Multer |
+| **Server** | Node 22, Express 5, TypeScript, MongoDB with Mongoose 9, JWT, bcrypt, Zod, Multer, Nodemailer |
+| **Messaging** | Firebase Cloud Messaging (web push), Google Identity Services (sign-in) |
 | **Infra** | npm workspaces, Cloudinary, Docker, Vercel (web), Render (API), MongoDB Atlas |
 
 ## Architecture
@@ -88,6 +92,7 @@ echoo/
 │  │     │  ├─ mentions.ts     Resolves @handles to user ids at write time
 │  │     │  ├─ otp.ts          Six-digit codes: generate, hash, compare
 │  │     │  ├─ mail/           Nodemailer transport and message templates
+│  │     │  ├─ push/           Firebase Cloud Messaging delivery
 │  │     │  ├─ storage/        Cloudinary image uploads
 │  │     │  ├─ validation/     Reusable Zod field rules
 │  │     │  └─ response/       The single success envelope
@@ -101,16 +106,20 @@ echoo/
 │  │                           reactions · notifications · friends
 │  │        └─ <module>/       controller → service → validation → mapper
 │  └─ web/                     React client
+│     ├─ public/
+│     │  └─ firebase-messaging-sw.js  Background push service worker
 │     └─ src/
 │        ├─ components/ui/     Design-system primitives
 │        ├─ components/layout/ App shell, navigation, theme toggle
 │        ├─ features/          auth · feed · posts · comments · profile
 │        │                     reactions · notifications · friends
 │        │  └─ <feature>/      hooks.ts plus components/
+│        ├─ i18n/              English and Arabic, with RTL handling
 │        ├─ lib/api/           One axios client, one module per resource
 │        ├─ providers/         Auth, theme, query client
 │        └─ routes/            Lazy routes with auth guards
-└─ render.yaml                 API deployment blueprint
+├─ render.yaml                 API deployment blueprint
+└─ vercel.json                 Web deployment, built from the repo root
 ```
 
 ### Decisions worth explaining
@@ -190,18 +199,70 @@ cd echoo
 npm install
 ```
 
-Configure both apps:
+Create `apps/api/.env`:
 
-```bash
-cp apps/api/.env.example apps/api/.env
-cp apps/web/.env.example apps/web/.env
+```ini
+NODE_ENV=development
+PORT=3000
+DB_URI=mongodb://127.0.0.1:27017/echoo
+
+# Generate each with:
+#   node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+ACCESS_TOKEN_SECRET=
+REFRESH_TOKEN_SECRET=
+
+ORIGINS=http://localhost:5173
+
+# Optional. Each block is independently skippable — see the notes below.
+GOOGLE_CLIENT_ID=
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASSWORD=
+MAIL_FROM=Echoo <you@gmail.com>
+FIREBASE_PROJECT_ID=
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
+
+DEMO_EMAIL=demo@echoo.app
+DEMO_PASSWORD=Demo@1234
 ```
 
-Generate the two JWT secrets and paste them into `apps/api/.env`:
+And `apps/web/.env`:
 
-```bash
-node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+```ini
+# No trailing slash, and no /api/v1 suffix. Must match the port the API binds,
+# or the browser reports "Can't reach Echoo right now" — which looks like a
+# network fault rather than the config one it is.
+VITE_API_BASE_URL=http://localhost:3000
+
+# Powers the "Explore the demo" button. Leave blank to hide it.
+VITE_DEMO_EMAIL=demo@echoo.app
+VITE_DEMO_PASSWORD=Demo@1234
+
+# Public by design — it ships in the bundle. Must be the SAME value as
+# GOOGLE_CLIENT_ID above. Leave blank to hide the Google button.
+VITE_GOOGLE_CLIENT_ID=
+
+# Firebase, for browser push. Firebase console → Project settings → General
+# for the first six, and → Cloud Messaging → Web Push certificates for the
+# key pair. All seven or none: a partial set hides the push toggle and never
+# loads the SDK.
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+VITE_FIREBASE_VAPID_KEY=
 ```
+
+Every variable is validated by Zod at boot (`apps/api/src/config/config.ts`),
+so a missing secret fails immediately and by name rather than surfacing later
+as a JWT signed with `undefined`.
 
 Seed a sample feed, then start both apps:
 
@@ -234,6 +295,46 @@ The API verifies the transport at boot and reports the result in its startup
 log, so a wrong password shows up immediately rather than as a signup that
 appears to succeed and never delivers. `GET /health` reports `mail: true` once
 it is working.
+
+### Push notifications
+
+Browser push runs on Firebase Cloud Messaging, and both halves are
+configured.
+
+**The web app** reads the seven `VITE_FIREBASE_*` variables above. They are
+public at runtime — Vite compiles them into the bundle, and anyone can read
+them in devtools — so keeping them in the environment is about the repository
+rather than the browser: no project-specific value is committed, and the same
+source builds against a different Firebase project by changing the hosting
+config alone.
+
+`public/firebase-messaging-sw.js` is a service worker, so it can read neither
+the bundle nor the build environment. The app hands it the four keys Cloud
+Messaging needs on its registration URL instead. That URL is stable across
+loads, so the browser does not re-register on every visit.
+
+Worth doing once the site is live: restrict the browser API key to your own
+domains in Google Cloud Console → Credentials → HTTP referrers. That is the
+control that actually matters for a key which is visible by design.
+
+**Sending** is authenticated, so the API needs a service account:
+
+1. Firebase console → **Project settings → Service accounts → Generate new
+   private key**. That downloads a JSON file.
+2. Copy three fields out of it into `apps/api/.env`:
+   `project_id` → `FIREBASE_PROJECT_ID`, `client_email` →
+   `FIREBASE_CLIENT_EMAIL`, and `private_key` → `FIREBASE_PRIVATE_KEY`.
+3. The private key spans multiple lines. Keep it on one line wrapped in double
+   quotes with the newlines written as `\n` — the API converts them back. A
+   raw multi-line paste is rejected by the PEM parser.
+
+Leave all three blank and everything else still works: the API logs
+`Firebase push (in-app notifications only)` at boot and the polled in-app feed
+carries on as before. `GET /health` reports `push: true` once it is wired up.
+
+Each browser opts in separately, from the button on the notifications page.
+Permission is only ever requested from that click, never on page load, because
+a browser that denies once will not prompt again.
 
 ### Google sign-in
 
@@ -301,6 +402,8 @@ Base URL: `/api/v1`. All responses use one envelope:
 | `GET` | `/notifications/unread-count` | yes | Badge count |
 | `PATCH` | `/notifications/read-all` | yes | Mark everything read |
 | `PATCH` | `/notifications/:id/read` | yes | Mark one read |
+| `POST` | `/notifications/push/subscribe` | yes | Register this browser for push |
+| `DELETE` | `/notifications/push/subscribe` | yes | Stop pushing to this browser |
 | `GET` | `/friends` | yes | Your friends |
 | `GET` | `/friends/requests/incoming` | yes | Requests waiting on you |
 | `GET` | `/friends/requests/outgoing` | yes | Requests you sent |
@@ -332,18 +435,21 @@ Base URL: `/api/v1`. All responses use one envelope:
 - **Errors** — stack traces are logged server-side and never sent to clients
 - **Authorization** — ownership checks live in the service layer, so no route
   can forget them
+- **Push tokens** — stored `select: false`, stripped from every serialised
+  user, capped at ten per account, and pruned as soon as Firebase reports one
+  as dead
 
 ## Roadmap
 
 The foundations are deliberately built for what comes next:
 
 - [ ] Groups, with membership roles and per-group feeds
-- [ ] Pushing notifications over WebSockets instead of polling
+- [ ] Live in-app updates over WebSockets, so an open tab stops polling
 - [ ] 1:1 messaging with typing indicators and read receipts
 - [ ] A feed ranked by your friend graph rather than pure recency
 - [ ] Full-text search across posts and people
 - [ ] Moderation: reporting, block and mute, an admin queue, and audit logs
-- [ ] Email verification and password reset
+- [ ] Password reset by email
 - [ ] Redis for refresh-token revocation and feed caching
 - [ ] Integration tests with Vitest and `mongodb-memory-server`, wired into CI
 

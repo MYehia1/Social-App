@@ -49,7 +49,9 @@ export function PostCard({ post, detailed = false }: PostCardProps) {
             <bdi>{post.author.name}</bdi>
           </Link>
           <div className="flex items-center gap-1.5 text-xs text-subtle">
-            <span className="truncate">@{post.author.username}</span>
+            <span className="truncate">
+              <bdi>@{post.author.username}</bdi>
+            </span>
             <span aria-hidden="true">·</span>
             <time dateTime={post.createdAt ?? undefined} title={absoluteTime(post.createdAt)}>
               {relativeTime(post.createdAt)}

@@ -3,11 +3,12 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
-import { env, googleAuthEnabled, uploadsEnabled } from './config/config'
+import { env, googleAuthEnabled, pushEnabled, uploadsEnabled } from './config/config'
 import { connectDB, disconnectDB } from './DB/connection.db'
 import { globalErrorHandler } from './middleware'
 import { ForbiddenException, NotFoundException } from './common/exceptions'
 import { mailTransportVerified, verifyMailTransport } from './common/mail'
+import { verifyPushTransport } from './common/push'
 import {
   authRouter,
   commentRouter,
@@ -68,6 +69,7 @@ export function createApp(): Express {
       // variables are set — a wrong app password satisfies the config check.
       mail: mailTransportVerified(),
       google: googleAuthEnabled,
+      push: pushEnabled,
     })
   })
 
@@ -100,6 +102,7 @@ export default async function bootstrap(): Promise<void> {
     const inactive = [
       !uploadsEnabled && 'Cloudinary (uploads rejected)',
       !googleAuthEnabled && 'Google sign-in (button hidden)',
+      !pushEnabled && 'Firebase push (in-app notifications only)',
     ].filter(Boolean)
 
     if (inactive.length > 0) {
@@ -109,6 +112,9 @@ export default async function bootstrap(): Promise<void> {
     // Mail reports itself: unlike the others, being present in the config is
     // no proof it works, so this actually opens a connection and authenticates.
     void verifyMailTransport()
+    void verifyPushTransport().then((ready) => {
+      if (ready) console.log('🔔 Firebase push ready')
+    })
   })
 
   // Finish in-flight requests and close the DB before exiting, so a deploy
